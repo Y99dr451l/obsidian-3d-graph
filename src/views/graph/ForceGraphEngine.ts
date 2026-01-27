@@ -14,7 +14,6 @@ const origin = new THREE.Vector3(0, 0, 0);
 const cameraLookAtCenterTransitionDuration = 1000;
 const LINK_PARTICLE_MULTIPLIER = 2;
 export const FOCAL_FROM_CAMERA = 400;
-const selectedColor = "#CCA700";
 const PARTICLE_FREQUECY = 4;
 const LINK_ARROW_WIDTH_MULTIPLIER = 5;
 
@@ -324,11 +323,10 @@ export class ForceGraphEngine {
     const settings = this.forceGraph.view.settingManager.getCurrentSetting();
     const fullPath = node.path;
     const fileNameWithExtension = node.name;
-    const fullPathWithoutExtension = fullPath.substring(0, fullPath.lastIndexOf("."));
-    const fileNameWithoutExtension = fileNameWithExtension.substring(
-      0,
-      fileNameWithExtension.lastIndexOf(".")
-    );
+    const fullPathWithoutExtension = fullPath.contains(".") ? fullPath.substring(0, fullPath.lastIndexOf(".")) : fullPath;
+    const fileNameWithoutExtension = fileNameWithExtension.contains(".")
+      ? fileNameWithExtension.substring(0, fileNameWithExtension.lastIndexOf("."))
+      : fileNameWithExtension;
     const text = !settings.display.showExtension
       ? settings.display.showFullPath
         ? fullPathWithoutExtension
@@ -495,18 +493,15 @@ export class ForceGraphEngine {
 
   public getNodeColor = (node: Node): string => {
     let color: string;
-    const settings = this.forceGraph.view.settingManager.getCurrentSetting();
     const theme = this.forceGraph.view.theme;
-    const searchResult = this.forceGraph.view.settingManager.searchResult;
-    if (this.selectedNodes.has(node)) {
-      color = selectedColor;
-    } else if (this.isHighlightedNode(node)) {
-      color =
-        node === this.hoveredNode
-          ? settings.display.nodeHoverColor
-          : settings.display.nodeHoverNeighbourColor;
-    } else {
-      color = theme.graphNode;
+    if (node === this.hoveredNode) color = theme.graphNodeFocused;
+    else {
+      if (node.isAttachment()) color = theme.graphNodeAttachment;
+      else if (node.isUnresolved()) color = theme.graphNodeUnresolved;
+      else color = theme.graphNode;
+
+      const settings = this.forceGraph.view.settingManager.getCurrentSetting();
+      const searchResult = this.forceGraph.view.settingManager.searchResult;
       settings.groups.forEach((group, index) => {
         if (group.query.trim().length === 0) return;
         const searchStateGroup = searchResult.value.groups[index];

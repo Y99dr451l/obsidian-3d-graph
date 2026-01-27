@@ -1,6 +1,7 @@
 import type { ResolvedLinkCache } from "@/graph/Link";
 import { Link } from "@/graph/Link";
 import { Node } from "@/graph/Node";
+import { deepMerge } from "../util/deepMerge";
 import { copy } from "copy-anything";
 import type { App, TAbstractFile } from "obsidian";
 
@@ -103,7 +104,7 @@ export class Graph {
 
   // Creates a graph using the Obsidian API
   public static createFromApp = (app: App): Graph => {
-    const map = getMapFromMetaCache(app.metadataCache.resolvedLinks);
+    const map = getMapFromMetaCache(deepMerge(app.metadataCache.resolvedLinks, app.metadataCache.unresolvedLinks));
     const config = app.vault.config;
     const userExcludedFolders = config.userIgnoreFilters;
     const allFiles = userExcludedFolders
@@ -134,8 +135,12 @@ export class Graph {
       if (!sourceNode) return;
 
       targetIds.forEach((targetId) => {
-        const targetNode = nodeMap.get(targetId);
-        if (!targetNode) return;
+        let targetNode = nodeMap.get(targetId);
+        if (!targetNode) { // unresolved link, create new node
+          targetNode = new Node(targetId, targetId);
+          nodeMap.set(targetId, targetNode);
+          newNodes.push(targetNode);
+        }
 
         // Create new instances of links
         const link = new Link(sourceNode, targetNode);

@@ -1,5 +1,5 @@
 import { addSimpleSliderSetting } from "@/views/atomics/addSimpleSliderSetting";
-import { addColorPickerSetting } from "@/views/atomics/addColorPickerSetting";
+// import { addColorPickerSetting } from "@/views/atomics/addColorPickerSetting";
 import { addToggle } from "@/views/atomics/addToggle";
 import { DropdownComponent, Setting } from "obsidian";
 import type {
@@ -98,46 +98,46 @@ export const DisplaySettingsView = (
     }
   );
 
-  addColorPickerSetting(
-    containerEl,
-    {
-      name: "Node hover color",
-      value: displaySettings.nodeHoverColor,
-    },
-    (value) => {
-      settingManager.updateCurrentSettings((setting) => {
-        setting.value.display.nodeHoverColor = value;
-      });
-    }
-  );
+  // addColorPickerSetting(
+  //   containerEl,
+  //   {
+  //     name: "Node hover color",
+  //     value: displaySettings.nodeHoverColor,
+  //   },
+  //   (value) => {
+  //     settingManager.updateCurrentSettings((setting) => {
+  //       setting.value.display.nodeHoverColor = value;
+  //     });
+  //   }
+  // );
 
-  // add node hover color setting
-  addColorPickerSetting(
-    containerEl,
-    {
-      name: "Node hover neighbour color",
-      value: displaySettings.nodeHoverNeighbourColor,
-    },
-    (value) => {
-      settingManager.updateCurrentSettings((setting) => {
-        setting.value.display.nodeHoverNeighbourColor = value;
-      });
-    }
-  );
+  // // add node hover color setting
+  // addColorPickerSetting(
+  //   containerEl,
+  //   {
+  //     name: "Node hover neighbour color",
+  //     value: displaySettings.nodeHoverNeighbourColor,
+  //   },
+  //   (value) => {
+  //     settingManager.updateCurrentSettings((setting) => {
+  //       setting.value.display.nodeHoverNeighbourColor = value;
+  //     });
+  //   }
+  // );
 
-  // add link hover color setting
-  addColorPickerSetting(
-    containerEl,
-    {
-      name: "Link hover color",
-      value: displaySettings.linkHoverColor,
-    },
-    (value) => {
-      settingManager.updateCurrentSettings((setting) => {
-        setting.value.display.linkHoverColor = value;
-      });
-    }
-  );
+  // // add link hover color setting
+  // addColorPickerSetting(
+  //   containerEl,
+  //   {
+  //     name: "Link hover color",
+  //     value: displaySettings.linkHoverColor,
+  //   },
+  //   (value) => {
+  //     settingManager.updateCurrentSettings((setting) => {
+  //       setting.value.display.linkHoverColor = value;
+  //     });
+  //   }
+  // );
 
   // add show extension setting
   addToggle(

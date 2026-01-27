@@ -4,6 +4,7 @@ import { State } from "@/util/State";
 import { Graph } from "@/graph/Graph";
 import type { ResolvedLinkCache } from "@/graph/Link";
 import { deepCompare } from "@/util/deepCompare";
+import { deepMerge } from "@/util/deepMerge";
 import "@total-typescript/ts-reset";
 import "@total-typescript/ts-reset/dom";
 import { eventBus } from "@/util/EventBus";
@@ -20,7 +21,7 @@ import { Graph3DViewMarkdownRenderChild } from "@/views/graph/Graph3DViewMarkdow
 export default class Graph3dPlugin extends Plugin implements HoverParent {
   _resolvedCache: ResolvedLinkCache;
   public readonly cacheIsReady: State<boolean> = new State(
-    this.app.metadataCache.resolvedLinks !== undefined
+    this.app.metadataCache.resolvedLinks !== undefined && this.app.metadataCache.unresolvedLinks !== undefined
   );
   private isCacheReadyOnce = false;
   /**
@@ -67,7 +68,7 @@ export default class Graph3dPlugin extends Plugin implements HoverParent {
     this.fileManager = new MyFileManager(this);
 
     // init the theme
-    this.cacheIsReady.value = this.app.metadataCache.resolvedLinks !== undefined;
+    this.cacheIsReady.value = this.app.metadataCache.resolvedLinks !== undefined && this.app.metadataCache.unresolvedLinks !== undefined;
     this.onGraphCacheChanged();
 
     // init listeners
@@ -163,11 +164,12 @@ export default class Graph3dPlugin extends Plugin implements HoverParent {
     // check if the cache actually updated
     // Obsidian API sends a lot of (for this plugin) unnecessary stuff
     // with the resolve event
+    const dm = deepMerge(this.app.metadataCache.resolvedLinks, this.app.metadataCache.unresolvedLinks);
     if (
       this.cacheIsReady.value &&
-      !deepCompare(this._resolvedCache, this.app.metadataCache.resolvedLinks)
+      !deepCompare(this._resolvedCache, dm)
     ) {
-      this._resolvedCache = structuredClone(this.app.metadataCache.resolvedLinks);
+      this._resolvedCache = structuredClone(dm);
       this.globalGraph = Graph.createFromApp(this.app);
 
       if (this.isCacheReadyOnce) {

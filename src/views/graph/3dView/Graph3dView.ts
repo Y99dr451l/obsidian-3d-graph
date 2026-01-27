@@ -179,7 +179,7 @@ export abstract class Graph3dView<
     if (path.includes("")) {
       this.forceGraph?.interactionManager.updateNodeLabelDiv();
     }
-    if (path.some((p) => p === "filter.showAttachments" || p === "filter.showOrphans")) {
+    if (path.some((p) => p === "filter.showAttachments" || p === "filter.showOrphans" || p === "filter.showExistingFilesOnly")) {
       // we need to update force graph data
       this.updateGraphData(this.getNewGraphData());
     }

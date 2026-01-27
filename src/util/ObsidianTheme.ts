@@ -36,6 +36,9 @@ export class ObsidianTheme {
   textAccent: string;
 
   graphNode: string;
+  graphNodeFocused: string;
+  graphNodeAttachment: string;
+  graphNodeUnresolved: string;
   graphLine: string;
 
   // some others missing, but not needed currently
@@ -74,6 +77,9 @@ export class ObsidianTheme {
       .trim();
 
     this.graphNode = getComputedStyle(root).getPropertyValue("--graph-node").trim();
+    this.graphNodeFocused = getComputedStyle(root).getPropertyValue("--graph-node-focused").trim();
+    this.graphNodeAttachment = getComputedStyle(root).getPropertyValue("--graph-node-attachment").trim();
+    this.graphNodeUnresolved = getComputedStyle(root).getPropertyValue("--graph-node-unresolved").trim();
     this.graphLine = getComputedStyle(root).getPropertyValue("--graph-line").trim();
   }
 }
