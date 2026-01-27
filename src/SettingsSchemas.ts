@@ -48,7 +48,6 @@ export enum GraphType {
 }
 
 export enum SearchEngineType {
-  dataview = "dataview",
   default = "default",
   builtIn = "builtIn",
 }
