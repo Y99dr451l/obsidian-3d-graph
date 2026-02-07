@@ -79,4 +79,12 @@ export class Node {
       }
     });
   };
+
+  public isUnresolved(): boolean {
+    return !this.path.slice(-5).includes(".");
+  }
+
+  public isAttachment(): boolean {
+    return !this.path.endsWith(".md") && !this.isUnresolved();
+  }
 }

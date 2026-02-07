@@ -48,7 +48,6 @@ export enum GraphType {
 }
 
 export enum SearchEngineType {
-  dataview = "dataview",
   default = "default",
   builtIn = "builtIn",
 }
@@ -77,11 +76,6 @@ const commonSetting = {
     linkDistance: linkDistance.default,
     nodeRepulsion: nodeRepulsion.default,
     distanceFromFocal: 300,
-    // node hover color is red
-    nodeHoverColor: "#ff0000",
-    // node hover neighbour color is green
-    nodeHoverNeighbourColor: "#00ff00",
-    // link hover color is blue
     linkHoverColor: "#0000ff",
     showExtension: false,
     showFullPath: false,
@@ -99,8 +93,6 @@ export const BaseDisplaySettingsSchema = z.object({
   linkDistance: z.number().default(commonSetting.display.linkDistance),
   nodeRepulsion: z.number().default(commonSetting.display.nodeRepulsion),
   distanceFromFocal: z.number().default(commonSetting.display.distanceFromFocal),
-  nodeHoverColor: z.string().default(commonSetting.display.nodeHoverColor),
-  nodeHoverNeighbourColor: z.string().default(commonSetting.display.nodeHoverNeighbourColor),
   linkHoverColor: z.string().default(commonSetting.display.linkHoverColor),
   showExtension: z.boolean().default(commonSetting.display.showExtension),
   showFullPath: z.boolean().default(commonSetting.display.showFullPath),
@@ -120,6 +112,7 @@ export const BaseFilterSettingsSchema = z.object({
   searchQuery: z.string(),
   showOrphans: z.boolean(),
   showAttachments: z.boolean(),
+  showExistingFilesOnly: z.boolean(),
 });
 export const LocalFilterSettingSchema = BaseFilterSettingsSchema.merge(
   z.object({
@@ -236,6 +229,7 @@ export const defaultGlobalGraphSetting: GlobalGraphSettings = {
     searchQuery: "",
     showOrphans: true,
     showAttachments: false,
+    showExistingFilesOnly: true,
   },
   groups: [],
   display: {
@@ -249,6 +243,7 @@ export const defaultLocalGraphSetting: LocalGraphSettings = {
     searchQuery: "",
     showOrphans: true,
     showAttachments: false,
+    showExistingFilesOnly: true,
     depth: 1,
     linkType: "both",
   },
@@ -266,6 +261,7 @@ export const defaultMarkdownPostProcessorGraphSetting: MarkdownPostProcessorGrap
     searchQuery: "",
     showOrphans: true,
     showAttachments: false,
+    showExistingFilesOnly: true,
   },
   groups: [],
   display: {

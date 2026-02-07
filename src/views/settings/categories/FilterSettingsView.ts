@@ -56,6 +56,15 @@ export const FilterSettingsView = async (
     });
   });
 
+  // add show existing-only setting
+  new Setting(containerEl).setName("Show existing files only").addToggle((toggle) => {
+    toggle.setValue(filterSettings.showExistingFilesOnly || false).onChange(async (value) => {
+      settingManager.updateCurrentSettings((setting) => {
+        setting.value.filter.showExistingFilesOnly = value;
+      });
+    });
+  });
+
   if (graphView.graphType === GraphType.local) {
     const localFilterSettings = filterSettings as LocalFilterSetting;
     let latestValue = localFilterSettings.depth;

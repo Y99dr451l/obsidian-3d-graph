@@ -19,8 +19,10 @@ const getNewGlobalGraph = (
   return plugin.globalGraph
     .clone()
     .filter((node) => {
-      // if node is not a markdown  and show attachment is false, then we will not show it
-      if (!node.path.endsWith(".md") && !config.filterSetting.showAttachments) return false;
+      if (node.isUnresolved() && config.filterSetting.showExistingFilesOnly)
+        return false;
+      if (node.isAttachment() && !config.filterSetting.showAttachments)
+        return false;
       //  if the search query is not empty and the search result is empty, then we don't need to filter the search result
       if (config.searchResults.length === 0 && config.filterSetting.searchQuery === "") return true;
       // if the node is not in the files, then we will not show it
