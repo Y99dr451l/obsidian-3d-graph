@@ -1,3 +1,8 @@
+### Changes by Y99dr451l
+- added option to display unresolved links
+- reverted to obsidian theme colours
+- removed broken dataview search dependency
+
 ## Obsidian 3D Graph (Yomaru)
 
 ![Obsidian 3D graph](https://github.com/HananoshikaYomaru/obsidian-3d-graph/assets/43137033/c8a501e8-c5b6-4622-b5df-2a2335609cae)
